@@ -1,4 +1,4 @@
-const __helper =(function(){
+const __helper = (function(){
     const version = '1.0.0 - 2020-01-01';
 
     const cssInject = function(a,b){
@@ -41,6 +41,9 @@ const __helper =(function(){
     const cookies = (function(){
         
         const bake = function(a,b,c){
+            if (!b) {
+                b = true;
+            }
             if(c){
                 c = new Date(c);
                 if (c) {

@@ -147,23 +147,84 @@ $ pickSomethingElse
 
 #### __helper.cookies.bake(name, value, expireDate)
 
-
+Writes a cookie with the given parameters. **name** is required. If no **value** is given, a value of `true` will be set. If no **expireDate** is given, the cookie will be set as a session cookie.
 
 ### Delete a Cookie (Eat)
 
 #### __helper.cookies.eat(name)
 
-
+Removes a cookie with a given **name**. **name** is a required parameter.
 
 ### Read a Cookie
 
 #### __helper.cookies.read(name)
 
+Returns the value from a given cookie __name__. **name** is a required parameter.
 
+_example:_
+
+```javascript
+var foo = __helper.cookies.read('foo');
+```
+
+_result:_
+
+```
+$ foo
+> bar
+```
 
 ---
 
 ## Time Functions (__helper.time )
 
+### Add Days
 
+#### __helper.time.addDays(date, daysToAdd)
+
+Used to add a number of days to a __date__ where __daysToAdd__ is a number. All parameters are required. If **date** is not a date, it is converted to a date string automatically.
+
+_example:_
+
+```javascript
+var today = new Date('2019/12/11')
+__helper.time.addDays(today,7);
+```
+
+_result:_ 
+
+```
+> Wed Dec 18 2019 00:00:00 GMT-0500
+```
+
+### Check Dates
+
+#### __helper.time.checkDates(thisDate,dateRange)
+
+Returns `true`/`false` if parameter __thisDate__ falls within the given __dateRange__ parameter. The __dateRange__ can either be set to `true`, which will always result in a return of `true`, or through a "scheduler" array. _**note**: scheduler array is constructed as a start date and end date separated by a comma. (example: `[['Dec 18 2018 00:00:00 GMT-0800','Jan 03 2019 23:59:59 GMT-0800']]`)_
+
+### Daylight Savings Time
+
+#### __helper.time.dst()
+
+Reruns `true` or `false` if the current time is under daylight savings time. Useful for setting countdown clocks to a specific time zone and adjusting them depending on local DST settings which vary from place to place.
+
+Example:
+
+Here a countdown is set to Dec 31st at 11:59pm in Los Angeles. If the user is in Sydney Australia (which is under DST during the northern hemisphere's winter time) the time will adjust for the local time's DST setting.
+
+```javascript
+time = 'Dec 31 2019 23:59:59'
+if (__helper.time.dst()){
+  time = time+' GMT-0700';
+} else {
+  time = time+' GMT-0800';
+}
+```
+
+### Month From...
+
+#### __helper.time.month(date)
+
+Returns the date that is one calendar month from the given **date** (i.e. if **date** was Jan 13th 2019, the function would return the date of Feb 13th 2019). If the **date** in the next month would take it beyond the confines of the current year, the function will return the date of the next month and the new year (i.e. if **date** was Dec 13th 2019, the function would return Jan 13th 2020).
 
