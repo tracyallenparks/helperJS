@@ -1,4 +1,4 @@
-var __helper =(function(){
+const __helper =(function(){
     const version = '1.0.0 - 2020-01-01';
 
     const cssInject = function(a,b){
@@ -59,7 +59,9 @@ var __helper =(function(){
 
         const eat = function(a){
             if (a) {
-                __helper.cookies.bake(a,null,'Jan 01 1970 00:00:00');
+                let getHost = location.hostname.split('.');
+                d = '.'+getHost[1]+'.'+getHost[2];
+                document.cookie=a+'='+null+';expires='+new Date('Jan 01 1970 00:00:00').toUTCString()+';domain='+d+';path=/';
             }
         };
 
