@@ -228,3 +228,15 @@ if (__helper.time.dst()){
 
 Returns the date that is one calendar month from the given **date** (i.e. if **date** was Jan 13th 2019, the function would return the date of Feb 13th 2019). If the **date** in the next month would take it beyond the confines of the current year, the function will return the date of the next month and the new year (i.e. if **date** was Dec 13th 2019, the function would return Jan 13th 2020).
 
+### Time Remaining
+
+#### __helper.time.timeRemaining(endTime)
+
+Returns the breakout for the time remaining of a given __endTime__ compared to the current time as a JSON object. All parameters are required. This gets heavily used in pair with a countdown clock.
+
+_result:_
+
+```
+> var t = _mx.time.timeRemaining(new Date('2019/12/08'));
+> { days: 192, hours: 9, hoursTotal: 4617, minutes: 44, seconds: 45, total: 16623885000 }
+```
