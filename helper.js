@@ -1,5 +1,5 @@
 const __helper = (function(){
-    const version = '1.0.0 - 2020-01-01';
+    const version = '1.0.1 - 2020-07-15';
 
     const cssInject = function(a,b){
         if (!document.querySelector('#'+b)) {
@@ -57,14 +57,14 @@ const __helper = (function(){
             let getHost = location.hostname.split('.');
                 d = '.'+getHost[1]+'.'+getHost[2];
 
-            document.cookie=a+'='+b+e+'; ;domain='+d+';path=/';
+            document.cookie=a+'='+b+e+'; ;domain='+d+';path=/;secure';
         };
 
         const eat = function(a){
             if (a) {
                 let getHost = location.hostname.split('.');
                 d = '.'+getHost[1]+'.'+getHost[2];
-                document.cookie=a+'='+null+';expires='+new Date('Jan 01 1970 00:00:00').toUTCString()+';domain='+d+';path=/';
+                document.cookie=a+'='+null+';expires='+new Date('Jan 01 1970 00:00:00').toUTCString()+';domain='+d+';path=/;secure';
             }
         };
 
