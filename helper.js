@@ -69,17 +69,19 @@ const __helper = (function(){
         };
 
         const read = function(a) {
-            let v = null;
-            if (a) {
-                let allCookies = document.cookie.split('; ');
-                for (let i = allCookies.length - 1; i >= 0; i--) {
-                    let thisCookie = allCookies[i].split('=');
-                    if (thisCookie[0] == a) {
-                        v = thisCookie [1];
-                    }
+            let name = a + '=';
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let ca = decodedCookie.split(';');
+            for(let i = ca.length-1; i >= 0; i--) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
                 }
             }
-            return v;
+            return null;
         };
 
         return {
