@@ -1,5 +1,5 @@
 const __helper = (function(){
-    const version = '1.0.1 - 2020-07-15';
+    const version = '1.1.0 - 2020-08-13';
 
     const cssInject = function(a,b){
         if (!document.querySelector('#'+b)) {
@@ -40,31 +40,51 @@ const __helper = (function(){
 
     const cookies = (function(){
         
-        const bake = function(a,b,c){
-            if (!b) {
-                b = true;
-            }
-            if(c){
-                c = new Date(c);
-                if (c) {
-                    e = "; expires="+c.toUTCString();
-                } else {
-                    e = '';
+        const bake = function(a){
+            if(a && a.Name){
+                if(typeof a.Value === 'undefined'){
+                    a.Value = true;
                 }
-            } else {
-                e = '';
+                if (typeof a.Expires === 'undefined') {
+                    a.Expires = '';
+                }
+                if (typeof a.Domain === 'undefined') {
+                    a.Domain = get_top_domain();
+                }
+                if (typeof a.Path === 'undefined') {
+                    a.Path = '/';
+                }
+                if (typeof a.SameSite === 'undefined') {
+                    a.SameSite = 'Strict';
+                }
+                if (typeof a.Secure  === 'undefined') {
+                    a.Secure = true;
+                }
+                if (typeof a.HttpOnly === 'undefined') {
+                    a.HttpOnly = false; //if running server side, default to `true`
+                }
+        
+                if (a.Expires != '') {
+                    if (typeof a.Expires === 'number') {
+                        let today = new Date();
+                        a.Expires = today.setDate(today.getDate() + a.Expires);
+                    } else {
+                        const t = new Date(a.Expires);
+                        if (t instanceof Date && !isNaN(t)) {
+                            a.Expires = t.toUTCString();
+                        } else {
+                            a.Expires = '';
+                        }
+                    }
+                }
+        
+                document.cookie = a.Name + '=' + a.Value + '; ' + ((a.Expires != '')?'expires=' + a.Expires + '; ':'') + 'domain=' +a.Domain +'; ' + 'path=' + a.Path +'; ' + 'SameSite=' + ((a.SameSite.toLowerCase() == 'strict')?'Strict':((a.SameSite.toLowerCase().indexOf('lax') > -1)?'Lax':'None')) + '; ' + ((a.Secure)?'secure; ':'') + ((a.HttpOnly)?'HttpOnly;':'');
             }
-            let getHost = location.hostname.split('.');
-                d = '.'+getHost[1]+'.'+getHost[2];
-
-            document.cookie=a+'='+b+e+'; ;domain='+d+';path=/;secure';
         };
 
-        const eat = function(a){
+        const eat = function(a,b){
             if (a) {
-                let getHost = location.hostname.split('.');
-                d = '.'+getHost[1]+'.'+getHost[2];
-                document.cookie=a+'='+null+';expires='+new Date('Jan 01 1970 00:00:00').toUTCString()+';domain='+d+';path=/;secure';
+                document.cookie = a + '=' + null + ';expires=Thu, 01 Jan 1970 00:00:01 GMT;domain=' + ((b)?b:get_top_domain()) + ';path=/;secure';
             }
         };
 
@@ -83,6 +103,19 @@ const __helper = (function(){
             }
             return null;
         };
+
+        function get_top_domain(){
+            let weird_cookie='weird_get_top_level_domain=cookie';
+            let hostname = document.location.hostname.split('.');
+            for( let i = hostname.length - 1; i>=0; i--) {
+                let h = hostname.slice(i).join('.');
+                document.cookie = weird_cookie + ';domain=.' + h + ';';
+                if(document.cookie.indexOf(weird_cookie) > -1){
+                    document.cookie = weird_cookie.split('=')[0] + '=;domain=.' + h + ';expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+                    return '.'+h;
+                }
+            }
+        }
 
         return {
             bake: bake,
