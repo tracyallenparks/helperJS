@@ -37,6 +37,24 @@ const __helper = (function(){
             return false;
         }
     };
+    
+    const preformatFloat = function(float) {
+        if(float){
+            const position_comma = float.indexOf(',');
+            const position_full_stop = float.indexOf('.');
+            if(position_comma === position_full_stop){
+                return float;
+            } else if(position_comma === (float.length-3)){
+                return float.replace(/\./g,'').replace(',', '.')
+            } else if((position_full_stop === (float.length-3) || (position_comma > position_full_stop))){
+                return float.replace(/\,/g, '');
+            } else {
+                return float.replace(/\./g,'');
+            }
+        } else {
+            return '';
+        }
+    };
 
     const cookies = (function(){
         
@@ -279,6 +297,7 @@ const __helper = (function(){
         getParam: getParam,
         getRndNum: getRndNum,
         getRndObj: getRndObj,
+        preformatFloat: preformatFloat,
         cookies: cookies,
         time: time,
         v: version
