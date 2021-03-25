@@ -85,7 +85,7 @@ const __helper = (function(){
                 if (a.Expires != '') {
                     if (typeof a.Expires === 'number') {
                         let today = new Date();
-                        a.Expires = today.setDate(today.getDate() + a.Expires);
+                        a.Expires = new Date(today.setDate(today.getDate() + a.Expires)).toUTCString();
                     } else {
                         const t = new Date(a.Expires);
                         if (t instanceof Date && !isNaN(t)) {
