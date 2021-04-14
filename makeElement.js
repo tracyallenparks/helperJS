@@ -20,4 +20,13 @@ function make_element(type,html,attributes){
 
     example of use:
     const new_element = make_element('div','<p>some sample text</p>',{class:'this-class',style:'display:flex;','data-src':'//samplesite.com/this-url'});
+    
+    extended use example:
+    const element_settings = {
+        class:'this-class that-class',
+        id:'unique-id',
+        href: '/url/path/way'
+    };
+    const element_html = '<p>inner textual link</p>';
+    const new_element = make_element('a',element_html,element_settings);
 */
