@@ -1,13 +1,15 @@
-function make_element(type,html,attributes){
+function make_element(type,settings){
     let element;
     if(type){
         element = document.createElement(type);
-        if(typeof html === 'string'){
-            element.innerHTML = html;
-        }
-        if(typeof attributes === 'object'){
-            Object.keys(attributes).forEach(function(attribute){
-                element.setAttribute(attribute,attributes[attribute]);
+        if(typeof settings === 'object'){
+            Object.keys(settings).forEach(function(key){
+                if(key == 'html'){
+                    element.innerHTML = settings[key];
+                } else {
+                    element.setAttribute(key,settings[key]);
+                }
+                
             });
         }
     }
@@ -15,18 +17,22 @@ function make_element(type,html,attributes){
 }
 /*
     type: STRING - (required) any value as long as it is valid for an HTML element
-    html: STRING - any value as long as it is valid dor HTML content
-    attributes: JSON object - KEY is the attribute setting (i.e. class, id, src, etc.) and the value set for the key is the value given to the attribute (i.e. 'this-class', 'this-id', 'url for img src', etc.)
+    settings: JSON object - KEY is the attribute setting (i.e. class, id, src, etc.) or the innerHTML of the element. The value set for the key is the value given to the attribute (i.e. 'this-class', 'this-id', 'url for img src', etc.) or what will be placed in as the innerHTML ('<p>example text</p>).
 
     example of use:
-    const new_element = make_element('div','<p>some sample text</p>',{class:'this-class',style:'display:flex;','data-src':'//samplesite.com/this-url'});
+    const new_element = make_element('div',{
+        class:'this-class',
+        style:'display:flex;',
+        'data-src':'//samplesite.com/this-url',
+        html:'<p>some sample text</p>'
+    });
     
     extended use example:
     const element_settings = {
         class:'this-class that-class',
         id:'unique-id',
-        href: '/url/path/way'
+        href: '/url/path/way',
+        html: '<p>inner textual link</p> other sample text'
     };
-    const element_html = '<p>inner textual link</p>';
-    const new_element = make_element('a',element_html,element_settings);
+    const new_element = make_element('a',element_settings);
 */
