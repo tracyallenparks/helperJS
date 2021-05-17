@@ -9,7 +9,6 @@ function make_element(type,settings){
                 } else {
                     element.setAttribute(key,settings[key]);
                 }
-                
             });
         }
     }
