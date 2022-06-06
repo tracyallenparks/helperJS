@@ -4,8 +4,10 @@ function make_element(type,settings){
         element = document.createElement(type);
         if(typeof settings === 'object'){
             Object.keys(settings).forEach(function(key){
-                if(key == 'html'){
+                if(key.toLowerCase() === 'html' || key.toLowerCase() === 'innerhtml' || key.toLowerCase() === 'innertext' || key.toLowerCase() === 'text'){
                     element.innerHTML = settings[key];
+                } else if(key.toLowerCase() === 'classname'){
+                    element.setAttribute('class',settings[key]);
                 } else {
                     element.setAttribute(key,settings[key]);
                 }
