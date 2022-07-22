@@ -4,8 +4,7 @@ function make_element(type,settings){
         element = document.createElement(type);
         if(typeof settings === 'object'){
             Object.keys(settings).forEach(function(key){
-                let k = key.toLowerCase();
-                switch(k){
+                switch(key.toLowerCase()){
                     case 'html':
                     case 'innerhtml':
                     case 'text':
