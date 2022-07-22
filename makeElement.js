@@ -4,12 +4,25 @@ function make_element(type,settings){
         element = document.createElement(type);
         if(typeof settings === 'object'){
             Object.keys(settings).forEach(function(key){
-                if(key.toLowerCase() === 'html' || key.toLowerCase() === 'innerhtml' || key.toLowerCase() === 'innertext' || key.toLowerCase() === 'text'){
-                    element.innerHTML = settings[key];
-                } else if(key.toLowerCase() === 'classname'){
-                    element.setAttribute('class',settings[key]);
-                } else {
-                    element.setAttribute(key,settings[key]);
+                let k = key.toLowerCase();
+                switch(k){
+                    case 'html':
+                    case 'innerhtml':
+                    case 'text':
+                    case 'innertext':
+                        element.innerHTML = settings[key];
+                        break;
+                    case 'class':
+                    case 'classname':
+                    case 'classlist':
+                        if(typeof settings[key] === 'object' && settings[key].length > 0){
+                            element.setAttribute('class',settings[key].join(' '));
+                        } else {
+                            element.setAttribute('class',settings[key]);
+                        }
+                        break;
+                    default:
+                        element.setAttribute(key,settings[key]);
                 }
             });
         }
