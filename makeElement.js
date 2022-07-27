@@ -42,10 +42,10 @@ function make_element(type,settings){
     
     extended use example:
     const element_settings = {
-        class:'this-class that-class',
+        classList:['this-class','that-class'],
         id:'unique-id',
         href: '/url/path/way',
-        html: '<p>inner textual link</p> other sample text'
+        innerHTML: '<p>inner textual link</p> other sample text'
     };
     const new_element = make_element('a',element_settings);
 */
