@@ -10,6 +10,17 @@ const __helper = (function(){
         }
     };
 
+    const deep_clone = (obj) => {
+        if(typeof obj !== 'object' || obj === null) return obj;
+        
+        const the_clone = Array.isArray(obj)?[]:{};
+        for (const key in obj) {
+            const value = obj[key];
+            the_clone[key] = deep_clone(value);
+        }
+        return the_clone;
+    };
+
     const find_ancestor = (element,look_for) => {
         while ((element = element.parentElement) && (element.tagName.toLowerCase() !== look_for.toLowerCase() && !element.classList.contains(look_for) && element.id !== look_for));
         return element;
@@ -294,6 +305,7 @@ const __helper = (function(){
 
     return {
         css_inject: css_inject,
+        deep_clone: deep_clone,
         find_ancestor: find_ancestor,
         get_param: get_param,
         rnd_num: rnd_num,
