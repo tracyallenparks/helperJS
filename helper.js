@@ -1,59 +1,60 @@
 const __helper = (function(){
-    const version = '1.1.0 - 2020-08-13';
+    const version = '2.0.0 - 2022-10-25';
 
-    const cssInject = function(a,b){
-        if (!document.querySelector('#'+b)) {
+    const css_inject = (css,id) => {
+        if (!document.querySelector('#'+id)) {
             let styler = document.createElement('style');
-                styler.type = 'text/css';
-                styler.id = b;
-                styler.appendChild(document.createTextNode(a));
+                styler.id = id;
+                styler.appendChild(document.createTextNode(css));
             document.head.appendChild(styler);
         }
     };
 
-    const findAncestor = function(a,b) {
-        while ((a = a.parentElement) && (a.tagName.toLowerCase() !== b.toLowerCase() && !a.classList.contains(b) && a.id !== b));
-        return a;
+    const find_ancestor = (element,look_for) => {
+        while ((element = element.parentElement) && (element.tagName.toLowerCase() !== look_for.toLowerCase() && !element.classList.contains(look_for) && element.id !== look_for));
+        return element;
     };
 
-    const getParam = function(a,b) {
-        if (!b) {
-            b = document.location.href;
-        }
-        let match = RegExp('[?&]' + a + '=([^&]*)').exec(b);
+    const get_param = (param,url = document.location.href) => {
+        let match = RegExp('[?&]' + param + '=([^&]*)').exec(b);
         return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
     };
 
-    const getRndNum = function(a,b) {
-        let c = Math.floor(Math.random() * (b - a + 1)) + a;
-        return c;
+    const rnd_num = (max,min = 0) => {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
     };
 
-    const getRndObj = function(a) {
-        if (typeof a === 'object') {
-            let b = Math.floor(Math.random() * ((a.length-1) - 0 + 1)) + 0;
-            return a[b];
-        } else {
-            return false;
+    const rnd_obj = (data) => {
+        if (typeof data === 'object') {
+            return data[Math.floor(Math.random() * ((data.length-1) - 0 + 1)) + 0];
         }
+        return false;
     };
     
-    const preformatFloat = function(float) {
-        if(float){
+    const format_float = (float) => {
+        if(!!float){
             const position_comma = float.indexOf(',');
             const position_full_stop = float.indexOf('.');
-            if(position_comma === position_full_stop){
-                return float;
-            } else if(position_comma === (float.length-3)){
-                return float.replace(/\./g,'').replace(',', '.')
-            } else if((position_full_stop === (float.length-3) || (position_comma > position_full_stop))){
-                return float.replace(/\,/g, '');
-            } else {
-                return float.replace(/\./g,'');
+            let result;
+            switch(true){
+                case position_comma === position_full_stop:
+                    result = parseFloat(float);
+                    break;
+                case position_comma === (float.length-3):
+                    result = parseFloat(float.replace(/\./g,'').replace(',', '.'));
+                    break;
+                case (position_full_stop === (float.length-3) || (position_comma > position_full_stop)):
+                    result = parseFloat(float.replace(/\,/g, ''));
+                    break;
+                default:
+                    result = parseFloat(float.replace(/\./g,''));
+                    break;
             }
-        } else {
-            return '';
+            if(!!result && !isNaN(result)){
+                return result;
+            }
         }
+        return null;
     };
 
     const cookies = (function(){
@@ -292,12 +293,12 @@ const __helper = (function(){
     })();
 
     return {
-        cssInject: cssInject,
-        findAncestor: findAncestor,
-        getParam: getParam,
-        getRndNum: getRndNum,
-        getRndObj: getRndObj,
-        preformatFloat: preformatFloat,
+        css_inject: css_inject,
+        find_ancestor: find_ancestor,
+        get_param: get_param,
+        rnd_num: rnd_num,
+        rnd_obj: rnd_obj,
+        format_float: format_float,
         cookies: cookies,
         time: time,
         v: version

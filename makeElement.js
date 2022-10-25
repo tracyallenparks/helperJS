@@ -3,7 +3,7 @@ function make_element(type,settings){
     if(type){
         element = document.createElement(type);
         if(typeof settings === 'object'){
-            Object.keys(settings).forEach(function(key){
+            for(let key in settings){
                 switch(key.toLowerCase()){
                     case 'html':
                     case 'innerhtml':
@@ -23,7 +23,7 @@ function make_element(type,settings){
                     default:
                         element.setAttribute(key,settings[key]);
                 }
-            });
+            }
         }
     }
     return element;
