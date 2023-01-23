@@ -1,5 +1,9 @@
 const __helper = (function(){
-    const version = '2.0.0 - 2022-10-25';
+    const version = '2.0.1 - 2022-10-28';
+
+    const check_array = (arr) => {
+        return (arr?.length && Array.isArray(arr))?true:false
+    }
 
     const css_inject = (css,id) => {
         if (!document.querySelector('#'+id)) {
@@ -304,6 +308,7 @@ const __helper = (function(){
     })();
 
     return {
+        check_array: check_array,
         css_inject: css_inject,
         deep_clone: deep_clone,
         find_ancestor: find_ancestor,
