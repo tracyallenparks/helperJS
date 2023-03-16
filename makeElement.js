@@ -1,33 +1,30 @@
 function make_element(type,settings){
-    let element;
-    if(type){
+    let element
+    if (!!type && typeof type === 'string') {
         element = document.createElement(type);
-        if(typeof settings === 'object'){
-            for(let key in settings){
-                switch(key.toLowerCase()){
+        if (typeof settings === 'object') {
+            Object.entries(settings).forEach(([key, value]) => {
+                switch (key.toLowerCase()) {
                     case 'html':
                     case 'innerhtml':
                     case 'text':
                     case 'innertext':
-                        element.innerHTML = settings[key];
+                        element.innerHTML = value;
                         break;
                     case 'class':
                     case 'classname':
                     case 'classlist':
                     case 'css':
-                        if(Array.isArray(settings[key])){
-                            element.setAttribute('class',settings[key].join(' '));
-                        } else {
-                            element.setAttribute('class',settings[key]);
-                        }
+                        element.classList.add(...(!Array.isArray(value) ? value.split(' ') : value));
                         break;
                     default:
-                        element.setAttribute(key,settings[key]);
+                        element.setAttribute(key, value);
                 }
-            }
+            });
         }
     }
-    return element;
+
+    return element || null;
 }
 
 /*
@@ -56,35 +53,32 @@ function make_element(type,settings){
 
 class xElement {
     constructor(type,settings){
-        let element;
-        if(type){
+        let element
+        if (!!type && typeof type === 'string') {
             element = document.createElement(type);
-            if(typeof settings === 'object'){
-                for(let key in settings){
-                    switch(key.toLowerCase()){
+            if (typeof settings === 'object') {
+                Object.entries(settings).forEach(([key, value]) => {
+                    switch (key.toLowerCase()) {
                         case 'html':
                         case 'innerhtml':
                         case 'text':
                         case 'innertext':
-                            element.innerHTML = settings[key];
+                            element.innerHTML = value;
                             break;
                         case 'class':
                         case 'classname':
                         case 'classlist':
                         case 'css':
-                            if(Array.isArray(settings[key])){
-                                element.setAttribute('class',settings[key].join(' '));
-                            } else {
-                                element.setAttribute('class',settings[key]);
-                            }
+                            element.classList.add(...(!Array.isArray(value) ? value.split(' ') : value));
                             break;
                         default:
-                            element.setAttribute(key,settings[key]);
+                            element.setAttribute(key, value);
                     }
-                }
+                });
             }
         }
-        return element;
+
+        return element || null;
     }
 }
 
