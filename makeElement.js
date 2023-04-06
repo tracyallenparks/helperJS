@@ -15,7 +15,7 @@ function make_element(type,settings){
                     case 'classname':
                     case 'classlist':
                     case 'css':
-                        element.classList.add(...(!Array.isArray(value) ? value.split(' ') : value));
+                        element.classList.add(...(!Array.isArray(value) ? value.replace(/,/g,' ').split(' ') : value));
                         break;
                     default:
                         element.setAttribute(key, value);
@@ -69,7 +69,7 @@ class xElement {
                         case 'classname':
                         case 'classlist':
                         case 'css':
-                            element.classList.add(...(!Array.isArray(value) ? value.split(' ') : value));
+                            element.classList.add(...(!Array.isArray(value) ? value.replace(/,/g,' ').split(' ') : value));
                             break;
                         default:
                             element.setAttribute(key, value);
